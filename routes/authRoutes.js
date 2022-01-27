@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../schema/userschema')
 const bcrypt = require('bcrypt')
+const jwt =require('jsonwebtoken')
 
 const authRouter = express.Router()
 
@@ -23,6 +24,8 @@ authRouter.post('/register',async (req,res)=>{
      if(error){
          res.status(400).json({message:error.message})
      }
+     let token= jwt.sign(username,process.env.JWT_SECRET)
+        res.setHeader('Autorization',token)
       res.status(200).json({message:"User OK",user:user})
  })
 })
@@ -31,11 +34,15 @@ authRouter.post('/register',async (req,res)=>{
     
     let username = req.body.username
     let password = req.body.password
+    let email = req.body.email
+    let birthday =req.body.birthday
+    let age = req.body.age
 
-   
     if (!password || !username){
         res.status(400).json({message: "Please have a username AND password"})
     }
+ 
+
 
 User.findOne({username: username}, (error, result)=>{
         if(error){
@@ -52,7 +59,9 @@ User.findOne({username: username}, (error, result)=>{
             if(matching === false){
                 res.status(403).json({message: "Either username or password is incorrect"})
             }
-
+            let token= jwt.sign(username,process.env.JWT_SECRET)
+            res.setHeader('Autorization',token)
+                         
             res.status(200).json({data: result})
         })
     
