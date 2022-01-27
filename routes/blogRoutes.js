@@ -7,42 +7,44 @@ const verifyJWT = require ('../middleware/jwt')
 
 const blogRouter = express.Router()
 
-blogRouter.get('/',(req,res)=>{
+blogRouter.get('/',verifyJWT,(req,res)=>{
     res.status(200).json({message:"User created"})
 })
 // get all the blogs from user/read
 blogRouter.get('/:username',(req,res)=>{
     let username = req.body.username
-        res.status(200).json({message: "All blogs from a user"})
+    Blog.find({username:username},(error,result)=>{
+        if (error){
+        res.status(400).json({message:error.message})
+        }
+        res.status(200).json({data:result})
+    })
+        
 
     })
 //     // create new blog
-blogRouter.post('/:username',jwt.verifyJWT,(req,res)=>{
+blogRouter.post('/:username',verifyJWT,(req,res)=>{
     let newBlogPost = {
     created_by:req.params.username,
-    created_at: Date.now(),
     blog_title: req.body.blog_title,
-    blog_content:req.body. blog_content,
+    blog_content:req.body.blog_content,
     private: req.body.private,
-}
-if (error){
-    res.status(400).json({message:error.message})
-}
-    res.status(200).json({message:error.message})
-
-)}
-
+    }
+    // if (error){
+    // res.status(400).json({message:error.message})
+    //     }
  Blog.create(newBlogPost,(error,blog)=>{
      if (error){
          res.status(400).json({message:error.message})
      } 
         res.status(200).json({message:blog})
-    })   
-
+    })  
+})   
     // get a single id 
-blogRouter.get('/:id', jwt.verifyJWT,(req,res)=>{
+blogRouter.get('/:id',verifyJWT,(req,res)=>{
     let id = Number(req.params.id)
-    if (id>=data.length || id < 0){
+    Blog.findById(id,newBlog,error,Blog)
+    if (error){
         res.status(404).json({message:"User not found"})
     }
         res.status(200).json({blog:data[id]})
@@ -50,19 +52,20 @@ blogRouter.get('/:id', jwt.verifyJWT,(req,res)=>{
 
  blogRouter.put('/:id',verifyJWT,(req,res)=>{
         let id = req.params.id
-        Blog.findById(id,newBlog,(error,blog)=>{
-            if(err){
+        Blog.findByIdAndUpdate(id,newBlog,(error,blog)=>{
+            if(error){
                 res.status(400).json({message:error.message})
             }
-            res.status(200).json({message:(error.message)})    
+            res.status(200).json({message:error.message})    
         })
     
      })
 
 blogRouter.delete('/:id',(req,res)=>{
   let id = req.params.id
-    res.status(400).json({message:"error.message"})
-
+  if (error){
+    res.status(400).json({message:error.message})
+}
         res.status(200).json({message:"Deleted"})
     })
  

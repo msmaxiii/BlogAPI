@@ -25,7 +25,7 @@ authRouter.post('/register',async (req,res)=>{
          res.status(400).json({message:error.message})
      }
      let token= jwt.sign(username,process.env.JWT_SECRET)
-        res.setHeader('Autorization',token)
+      res.setHeader('Authorization',token)
       res.status(200).json({message:"User OK",user:user})
  })
 })

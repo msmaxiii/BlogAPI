@@ -30,5 +30,5 @@ app.get('/',(req,res)=>{
 
 app.listen(port,()=>{
     mongooseConnect()
-    console.log('Welcome')
+    console.log(`Welcome server is listening at ${port}`);
 })
