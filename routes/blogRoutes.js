@@ -47,23 +47,28 @@ blogRouter.get('/:id',verifyJWT,(req,res)=>{
         res.status(200).json({blog:data[id]})
 })
 
- blogRouter.put('/blog:id',function(req,res,next){
-        Blog.findByIdAndUpdate({_id:req.params.id},req.body)
+ blogRouter.put('/:id',(req,res)=>{
+        Blog.findByIdAndUpdate({_id:req.params.id},req.body,(error ,result)=>{
             if(error){
-            res.status(400).json({message:"Bad request"})
-            }
-            res.status(200).json({message:"Updated"})    
-        
-    next()
+                res.status(400).json({message:"Bad request"})
+                }
+                res.status(200).json({data:result})    
+            
+        })
+            
+    
      })
 
-blogRouter.delete('/blog/:id',(req,res)=>{
-  Blog.findByIdAndDelete({_id:req.params.id})
+blogRouter.delete('/:id',(req,res)=>{
+  Blog.findByIdAndDelete({_id:req.params.id},(error,result)=>{
     if(error){
-    res.status(404).json({message:"ID not found"})
-    }
-    res.status(200).json({message:"Deleted"})
-    })
+        res.status(404).json({message:"ID not found"})
+        }
+        res.status(200).json({message:"Deleted"})
+        })
+  })
+  
+    
 
  
 module.exports = blogRouter
