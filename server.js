@@ -1,6 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
-const bodyParser = require('body-Parser')
+const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
