@@ -19,3 +19,5 @@ Run Locally
 git clone https://msmaxiii/BLOGAPI
 
 npm install
+
+Deployed on Heroku https://blogapp0920.herokuapp.com/
