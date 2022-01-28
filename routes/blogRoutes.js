@@ -68,6 +68,14 @@ blogRouter.delete('/:id',(req,res)=>{
         })
   })
   
+ blogRouter.get('/:private',(req,res)=>{
+     Blog.find({_private:req.params.private},(error,result)=>{
+        if(error){
+            res.status(404).json({message:"No private blogs found"})
+            }
+            res.status(200).json({data:result})
+            })   
+     })
     
 
  
