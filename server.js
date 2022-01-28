@@ -13,7 +13,7 @@ const blogRouter = require('./routes/blogRoutes')
 dotenv.config()
 const app = express()
 
-const port = 4000 || process.env.PORT
+const port = process.env.PORT || 4000
 
 // app.use(helmet())
 app.use(bodyParser.json())
