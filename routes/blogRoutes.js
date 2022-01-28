@@ -18,8 +18,7 @@ blogRouter.get('/:username',(req,res)=>{
         res.status(400).json({message:error.message})
         }
         res.status(200).json({data:result})
-    })
-        
+    }) 
 
     })
 //     // create new blog
@@ -30,14 +29,12 @@ blogRouter.post('/:username',verifyJWT,(req,res)=>{
     blog_content:req.body.blog_content,
     private: req.body.private,
     }
-    // if (error){
-    // res.status(400).json({message:error.message})
-    //     }
+    
  Blog.create(newBlogPost,(error,blog)=>{
      if (error){
          res.status(400).json({message:error.message})
      } 
-        res.status(200).json({message:blog})
+        res.status(200).json({message:Newblog})
     })  
 })   
     // get a single id 
@@ -45,28 +42,28 @@ blogRouter.get('/:id',verifyJWT,(req,res)=>{
     let id = Number(req.params.id)
     Blog.findById(id,newBlog,error,Blog)
     if (error){
-        res.status(404).json({message:"User not found"})
+        res.status(404).json({message:"ID not found"})
     }
         res.status(200).json({blog:data[id]})
 })
 
- blogRouter.put('/:id',verifyJWT,(req,res)=>{
-        let id = req.params.id
-        Blog.findByIdAndUpdate(id,newBlog,(error,blog)=>{
+ blogRouter.put('/blog:id',function(req,res,next){
+        Blog.findByIdAndUpdate({_id:req.params.id},req.body)
             if(error){
-                res.status(400).json({message:error.message})
+            res.status(400).json({message:"Bad request"})
             }
-            res.status(200).json({message:error.message})    
-        })
-    
+            res.status(200).json({message:"Updated"})    
+        
+    next()
      })
 
-blogRouter.delete('/:id',(req,res)=>{
-  let id = req.params.id
-  if (error){
-    res.status(400).json({message:error.message})
-}
-        res.status(200).json({message:"Deleted"})
+blogRouter.delete('/blog/:id',(req,res)=>{
+  Blog.findByIdAndDelete({_id:req.params.id})
+    if(error){
+    res.status(404).json({message:"ID not found"})
+    }
+    res.status(200).json({message:"Deleted"})
     })
+
  
 module.exports = blogRouter
