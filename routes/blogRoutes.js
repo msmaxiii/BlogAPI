@@ -8,6 +8,7 @@ const verifyJWT = require ('../middleware/jwt')
 const blogRouter = express.Router()
 
 blogRouter.get('/',verifyJWT,(req,res)=>{
+
     res.status(200).json({message:"User created"})
 })
 // get all the blogs from user/read
@@ -68,8 +69,8 @@ blogRouter.delete('/:id',(req,res)=>{
         })
   })
   
- blogRouter.get('/:private',(req,res)=>{
-     Blog.find({_private:req.params.private},(error,result)=>{
+ blogRouter.get('/',verifyJWT,(req,res)=>{
+     Blog.find({_private:false},(error,result)=>{
         if(error){
             res.status(404).json({message:"No private blogs found"})
             }

@@ -11,10 +11,11 @@ Tools: Mongo
 Environment Variables
 To run this project, you will need to add the following environments variables to your .env file
 
-PORT=4500
+PORT=400
 JWT_SECRET
 MONGODB_URII
 
 Run Locally
 git clone https://msmaxiii/BLOGAPI
 
+npm install
